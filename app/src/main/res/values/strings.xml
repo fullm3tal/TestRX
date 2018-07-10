@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">TestRX</string>
-    <string name="empty_list_network_call">Sorry unable to fetch the list of users</string>
+    <string name="empty_list_network_call">Sorry !! Unable to fetch the list of users</string>
 </resources>
