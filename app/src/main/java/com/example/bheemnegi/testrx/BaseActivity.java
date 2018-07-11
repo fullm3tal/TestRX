@@ -23,4 +23,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
     }
+
+    @Override
+    protected void onDestroy() {
+        System.out.println("On Destroy called");
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        System.out.println("On Stop called");
+        super.onStop();
+    }
 }

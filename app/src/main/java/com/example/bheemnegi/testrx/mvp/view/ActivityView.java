@@ -13,4 +13,6 @@ public interface ActivityView {
     void displayNoData();
 
     void displayError(String error);
+
+    void displayNamesOnly(List<String> namesList);
 }

@@ -5,16 +5,16 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RestClient {
+public class RestHelper {
 
     private static Retrofit retrofit = null;
 
-    private RestClient() {
+    private RestHelper() {
 
     }
 
-    public static Retrofit getInstance() {
-        synchronized (RestClient.class) {
+    public static RestInterface getInstance() {
+        synchronized (RestHelper.class) {
             if (retrofit == null) {
                 retrofit = new Retrofit.Builder()
                         .baseUrl(AppUrl.DUMMY_URL)
@@ -24,6 +24,7 @@ public class RestClient {
             }
         }
 
-        return retrofit;
+        return retrofit.create(RestInterface.class);
     }
+
 }
