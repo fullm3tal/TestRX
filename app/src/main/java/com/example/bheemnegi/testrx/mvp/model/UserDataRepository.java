@@ -75,8 +75,16 @@ public class UserDataRepository implements DataRepository {
                 return RestHelper.getInstance().getUsersListFromNetwork().execute().body();
             }
         });
-
-
-
     }
+
+    @Override
+    public Observable<User> getTakeableUserData() {
+        return new ObservableFromCallable<>(new Callable<User>() {
+            @Override
+            public User call() throws Exception {
+                return RestHelper.getInstance().getUsersFromNetwork().execute().body();
+            }
+        });
+    }
+
 }

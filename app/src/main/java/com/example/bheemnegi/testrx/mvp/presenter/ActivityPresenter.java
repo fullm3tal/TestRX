@@ -16,6 +16,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.MaybeObserver;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -43,17 +44,16 @@ public class ActivityPresenter {
 
         dataRepository.getObservableUserData()
                 .subscribeOn(Schedulers.io())
-
-                .map(new Function<List<User>, List<String >>() {
+                .map(new Function<List<User>, List<String>>() {
 
                     @Override
                     public List<String> apply(List<User> userList) throws Exception {
-                      List<String> namesList= new ArrayList<>();
-                      Log.v(TAG,"Thread name: "+Thread.currentThread().getName()
-                              +" Thread ID: "+Thread.currentThread().getId());
-                      for(User user:userList){
-                          namesList.add(user.getName());
-                      }
+                        List<String> namesList = new ArrayList<>();
+                        Log.v(TAG, "Thread name: " + Thread.currentThread().getName()
+                                + " Thread ID: " + Thread.currentThread().getId());
+                        for (User user : userList) {
+                            namesList.add(user.getName());
+                        }
                         return namesList;
                     }
                 })
@@ -66,26 +66,26 @@ public class ActivityPresenter {
 
                     @Override
                     public void onNext(List<String> strings) {
-                        Log.v(TAG,"Thread name: "+Thread.currentThread().getName()
-                                +" Thread ID: "+Thread.currentThread().getId());
-                       getView().displayNamesOnly(strings);
+                        Log.v(TAG, "Thread name: " + Thread.currentThread().getName()
+                                + " Thread ID: " + Thread.currentThread().getId());
+                        getView().displayNamesOnly(strings);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                     getView().displayError(e.getMessage());
+                        getView().displayError(e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.v(TAG,"On Complete");
+                        Log.v(TAG, "On Complete");
                     }
                 });
 
 
     }
 
-    public void loadDataFlowable(){
+    public void loadDataFlowable() {
 
         dataRepository.getFlowableUserData()
                 .subscribeOn(Schedulers.io())
@@ -114,7 +114,7 @@ public class ActivityPresenter {
 
     }
 
-    public void loadDataSingle(){
+    public void loadDataSingle() {
 
         mCompositeDisposable.add(dataRepository.getSingleUserData()
                 .subscribeOn(Schedulers.io())
@@ -132,7 +132,7 @@ public class ActivityPresenter {
                     @Override
                     public void onError(Throwable e) {
                         getView().displayError(e.getMessage());
-                        Log.v(TAG,"On Error called in loadDataSingle");
+                        Log.v(TAG, "On Error called in loadDataSingle");
                     }
                 }));
 
@@ -148,12 +148,12 @@ public class ActivityPresenter {
                     @Override
                     public void onSubscribe(Disposable d) {
                         mCompositeDisposable.add(d);
-                        Log.v(TAG,"On Subscribe called");
+                        Log.v(TAG, "On Subscribe called");
                     }
 
                     @Override
                     public void onNext(List<User> userList) {
-                        Log.v(TAG,"Next called in OnLoadObservable");
+                        Log.v(TAG, "Next called in OnLoadObservable");
                         if (userList.isEmpty()) {
                             getView().displayNoData();
                         } else {
@@ -164,7 +164,7 @@ public class ActivityPresenter {
                     @Override
                     public void onError(Throwable e) {
                         getView().displayError(e.getMessage());
-                        Log.v(TAG, "Error: "+e.getMessage());
+                        Log.v(TAG, "Error: " + e.getMessage());
 
                     }
 
@@ -176,44 +176,44 @@ public class ActivityPresenter {
 
     }
 
-    public void loadDataMaybe(){
+    public void loadDataMaybe() {
 
         dataRepository.getMaybeUserData().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MaybeObserver<List<User>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        mCompositeDisposable.add(d);
-                        Log.v(TAG,"On Subscribe called");
-                    }
+                               @Override
+                               public void onSubscribe(Disposable d) {
+                                   mCompositeDisposable.add(d);
+                                   Log.v(TAG, "On Subscribe called");
+                               }
 
-                    @Override
-                    public void onSuccess(List<User> userList) {
-                        Log.v(TAG,"On Success called");
-                        if (userList.isEmpty()) {
-                            getView().displayNoData();
-                        } else {
-                            getView().displayData(userList);
-                        }
-                    }
+                               @Override
+                               public void onSuccess(List<User> userList) {
+                                   Log.v(TAG, "On Success called");
+                                   if (userList.isEmpty()) {
+                                       getView().displayNoData();
+                                   } else {
+                                       getView().displayData(userList);
+                                   }
+                               }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        getView().displayError(e.getMessage());
-                        Log.v(TAG, "Error: "+e.getMessage());
-                    }
+                               @Override
+                               public void onError(Throwable e) {
+                                   getView().displayError(e.getMessage());
+                                   Log.v(TAG, "Error: " + e.getMessage());
+                               }
 
-                    @Override
-                    public void onComplete() {
-                        Log.v(TAG, "Completed called");
-                    }
-                }
+                               @Override
+                               public void onComplete() {
+                                   Log.v(TAG, "Completed called");
+                               }
+                           }
 
                 );
 
     }
 
-    public void loadDataCompletable(){
+    public void loadDataCompletable() {
         dataRepository.getCompletableUserData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -225,16 +225,46 @@ public class ActivityPresenter {
 
                     @Override
                     public void onComplete() {
-                         Log.v(TAG,"List loading Completed");
+                        Log.v(TAG, "List loading Completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                       getView().displayError(e.getMessage());
+                        getView().displayError(e.getMessage());
                     }
                 });
     }
 
+
+    public void loadDataOperatorTake() {
+        dataRepository.getTakeableUserData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mCompositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        Log.v(TAG, "onNext: ");
+                        getView().displayUsers(user);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v(TAG, "On Error called "+e.getMessage());
+                        getView().displayError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v(TAG, "onComplete() called");
+                    }
+                });
+
+    }
 
     public ActivityView getView() {
         return activity.get();

@@ -15,4 +15,6 @@ public interface ActivityView {
     void displayError(String error);
 
     void displayNamesOnly(List<String> namesList);
+
+    void displayUsers(User user);
 }

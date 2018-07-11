@@ -14,4 +14,6 @@ public interface RestInterface {
     @GET("/users")
     Call<List<User>> getUsersListFromNetwork();
 
+    @GET("/users")
+    Call<User> getUsersFromNetwork();
 }

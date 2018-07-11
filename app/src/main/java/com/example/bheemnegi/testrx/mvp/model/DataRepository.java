@@ -23,4 +23,5 @@ public interface DataRepository {
 
     Completable getCompletableUserData();
 
+    io.reactivex.Observable<User> getTakeableUserData();
 }

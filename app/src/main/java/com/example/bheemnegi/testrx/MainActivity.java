@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity implements ActivityView {
     @OnClick(R.id.bt_start_network_call)
     public void submitButton(View view) {
         showProgressBar();
-        activityPresenter.loadDataOperatorMap();
+        activityPresenter.loadDataOperatorTake();
     }
 
     private void showProgressBar() {
@@ -126,6 +126,12 @@ public class MainActivity extends BaseActivity implements ActivityView {
         }
         CustomRecyclerAdapter customAdapter = new CustomRecyclerAdapter(this, userList);
         recycler.setAdapter(customAdapter);
+    }
+
+    @Override
+    public void displayUsers(User user) {
+        showEmptyListOrErrorMessage();
+        textViewShowEmptyListOrErrorMessage.append(user.getName());
     }
 
     @Override
